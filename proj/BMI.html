@@ -1,0 +1,175 @@
+<html>
+<head>
+<style>
+.style{
+	padding: 3px;
+	font-size: 17px; 
+	font-family: arial narrow; 
+	font-weight: bold;
+}
+.style1{
+	padding: 5px;
+	background: red;
+	color: white;
+	font-size: 17px;
+	font-family: lucida;
+	font-weight: bold;
+}
+.home{
+	background: lavender;
+	border: 2px solid black;
+	position: fixed;
+	top: 100px;
+	left: 450px;
+	padding: 50px;
+}
+#result{
+	font-size: 18px;
+	font-family: sans-serif;
+	font-weight: bold;
+	width: 300px;
+	height: 90px auto;
+	border: 1px solid black;
+	background: white;
+
+}
+#err1,#err2{color: red;}
+</style>
+</head>
+<body>
+<div class='home'>
+<input id='input' class='style' size='20' placeholder='Enter your weight'><span id='err1'></span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<select id='weight' class='style'>
+<option value='0'>Kilogram</option>
+<option value='1'>Pounds</option>
+</select><br><br>
+<select id='feet' class='style'>
+<option>Feet</option>
+<option value='0'>1 ft</option>
+<option value='1'>2 ft</option>
+<option value='2'>3 ft</option>
+<option value='3'>4 ft</option>
+<option value='4'>5 ft</option>
+<option value='5'>6 ft</option>
+<option value='6'>7 ft</option>
+</select>&nbsp;"
+<select id='inch' class='style'>
+<option>Inch</option>
+<option value='0'>1 inch</option>
+<option value='1'>2 inch</option>
+<option value='2'>3 inch</option>
+<option value='3'>4 inch</option>
+<option value='4'>5 inch</option>
+<option value='5'>6 inch</option>
+<option value='6'>7 inch</option>
+<option value='7'>8 inch</option>
+<option value='8'>9 inch</option>
+<option value='9'>10 inch</option>
+<option value='10'>11 inch</option>
+</select>&nbsp;
+<input id='cm' class='style' size='15' placeholder='Centimeter'><span id='err2'></span><br><br>
+<button class='style1' onclick='calculate()'>Calculate</button>&nbsp;
+<a href='BMI.html'><input type='reset' style='padding: 5px;' value='Reset'></a><br><br>
+<div id='result'>
+Result
+</div>
+</div>
+<script>
+function calculate(){
+var input=document.getElementById('input').value;
+var weight=document.getElementById('weight').value;
+var feet=document.getElementById('feet').value;
+var inch=document.getElementById('inch').value;
+var centi=document.getElementById('cm').value;
+
+var lbs=453.6;
+var kg=1000;
+var meter=100;
+var inc;
+var ft;
+var arrft=[30.48,60.96,91.44,121.92,152.4,182.88,213.36];
+var arrinc=[2.54,5.08,7.62,10.16,12.7,15.24,17.78,20.32,22.86,25.4,27.94];
+
+var neutral;
+var neutral1;
+var kilo;
+var metro;
+var si;
+var ussi;
+var uksi;
+var message;
+var conv,conv1;
+//////CONDITION//////
+if(input==null||input==""||isNaN(input)){
+	document.getElementById('err1').innerHTML="X";
+	alert('This field cannot be with letters or empty!');
+}
+else{
+	document.getElementById('err1').innerHTML=" ";
+}
+if(centi==null||centi==""||isNaN(centi)){
+	document.getElementById('err2').innerHTML="X";
+}
+else{
+	document.getElementById('err2').innerHTML=" ";
+}
+if(!isNaN(feet)&&!isNaN(centi)){
+	document.getElementById('err2').innerHTML="*";
+}
+////////////////////
+
+if(!isNaN(input)&&!isNaN(centi)){
+	if(input){
+		if(weight==1){
+			neutral=lbs*input;
+			kilo=neutral/kg;
+		}
+		else{
+			neutral=kg*input;
+			conv=neutral/lbs;
+			kilo=(kg/kg)*input;
+		}
+	}
+	if(feet&&inch){
+		ft=arrft[feet];
+		inc=arrinc[inch];
+		conv1=(ft+inc)/2.54;
+		metro=(ft+inc)/meter;
+	}
+	if(centi){
+		metro=centi/meter;
+	}
+	si=kilo/(metro*metro);
+	ussi=703*conv/(conv1*conv1);
+	uksi=6.35*kilo/(metro*metro);
+	if(si>1 && si<15.02){
+		message='<span style="color: darkcyan;">Your health condition is: Starvation</span>';
+		alert('Your condition is Abnormal!');
+	}
+	if(si>15.03 && si<18.61){
+		message='<span style="color: cyan;">Your health condition is: Underweight</span>';
+		alert('Your condition is Abnormal!');
+	}
+	if(si>18.61 && si<25.14){
+		message='<span style="color: blue;">Your health condition is: Normal</span>';
+	}
+	if(si>25.14 && si<30.03){
+		message='<span style="color: red;">Your health condition is: Overweight</span>';
+		alert('Your condition is Abnormal!');
+	}
+	if(si>30.04){
+		message='<span style="color: purple;">Your health condition is: Obese</span>';
+		alert('Your condition is Abnormal!');
+	}
+	if(isNaN(metro)&&isNaN(si)&&isNaN(ussi)&&isNaN(uksi)){
+	var result=document.getElementById('result').innerHTML='<span id="red">Error</span>';	
+	}
+	else{
+	var result=document.getElementById('result').innerHTML="<b>Weight in KG: </b>"+kilo+"<br><b>Height in Meter: </b>"+metro+"<br><b>SI unit: </b>"+si+"<br>SI unit(US)"+ussi+"<br>SI unit(UK)"+uksi+"<br>"+message;
+	//alert(input+'<br>'+weight+'<br>'+feet+'<br>'+inch+'<br>'+cm+'<br>'+si+'<br>'+message+'<br>'+metro+'<br>'+kilo+'<br>'+conv);
+	}
+}
+}
+</script>
+</body>
+</html>
